@@ -1,0 +1,33 @@
+{
+    "name": "galaxy-migrations",
+    "version": "1.0.0",
+    "description": "Lightweight migration library in Node.js for NoSQL Document databases",
+    "main": "index.js",
+    "scripts": {
+        "test": "jest"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+ssh://git@github.com/srascar/galaxy-migrations.git"
+    },
+    "keywords": [
+        "migration"
+    ],
+    "author": "srascar",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/srascar/galaxy-migrations/issues"
+    },
+    "homepage": "https://github.com/srascar/galaxy-migrations#readme",
+    "devDependencies": {
+        "@types/commander": "^2.12.2",
+        "@types/jest": "^24.0.15",
+        "jest": "^24.8.0",
+        "ts-jest": "^24.0.2",
+        "typescript": "^3.5.3"
+    },
+    "dependencies": {
+        "@types/node": "^12.6.8",
+        "commander": "^2.20.0"
+    }
+}

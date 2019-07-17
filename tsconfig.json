@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "newLine": "LF",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "outDir": "build",
+        "target": "es6"
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules, migrations"]
+}

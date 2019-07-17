@@ -1,0 +1,24 @@
+#!/usr/bin/env node
+
+const commands = require('./build');
+
+const commander = require('commander');
+const program = new commander.Command();
+
+program.version('0.0.1').option('-v, --verbose', 'Output extra debugging');
+
+program
+    .command('generate')
+    .option(
+        '-o, --output-dir <dir>',
+        'Path to the migration directory. Default = "migrations"'
+    )
+    .description('Generate a blank migration file')
+    .action(commands.generate);
+
+program.parse(process.argv);
+
+// By default, display the list of commands
+if (program.args.length < 1) {
+    console.log(program.commandHelp());
+}
