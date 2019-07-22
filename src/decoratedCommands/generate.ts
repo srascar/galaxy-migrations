@@ -1,9 +1,6 @@
-import { Command, Option } from 'commander';
+import { Command } from 'commander';
 import generate from '../commands/generate';
 
-const decoratedGenerate = (cmd: Command, options: { outputDir?: string }) =>
-    process.exit(
-        options && options.outputDir ? generate(options.outputDir) : generate()
-    );
+const decoratedGenerate = (cmd: Command) => generate(cmd.outputDir);
 
 export default decoratedGenerate;

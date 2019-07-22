@@ -1,7 +1,6 @@
 import { resolve as pathResolve } from 'path';
 import { writeFileSync, existsSync, mkdirSync } from 'fs';
 import { generateMigrationContent } from '../templates/default-migration';
-import { RETURN_CODES } from '../dictionary';
 
 function pad(number: number) {
     if (number < 10) {
@@ -13,7 +12,7 @@ function pad(number: number) {
 const generate = (
     outputDir: string = 'migrations',
     version: number = null
-): number => {
+): void => {
     // Check if outputDir is undefined or null
     const resolvedOutputDir = pathResolve(outputDir || 'migrations');
     if (!existsSync(resolvedOutputDir)) {
@@ -36,19 +35,12 @@ const generate = (
     const content = generateMigrationContent(versionNumber);
 
     if (existsSync(filePath)) {
-        console.error(`ERROR: File "${filePath}" already exists.`);
-        return RETURN_CODES.RUNTIME_ERROR;
+        console.log({ filePath });
+        throw new Error(`File "${filePath}" already exists.`);
     }
 
-    try {
-        writeFileSync(filePath, content);
-    } catch (err) {
-        console.error(err);
-        return RETURN_CODES.RUNTIME_ERROR;
-    }
-
+    writeFileSync(filePath, content);
     console.log(`Successfully generated file: "${filePath}".`);
-    return RETURN_CODES.SUCCESS;
 };
 
 export default generate;

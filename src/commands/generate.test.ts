@@ -2,7 +2,6 @@ jest.mock('fs');
 jest.mock('path');
 import * as fs from 'fs';
 import generate from './generate';
-import { RETURN_CODES } from '../dictionary';
 
 interface FsEntry {
     type: string;
@@ -15,9 +14,8 @@ test('should try to create the output directory if not exists, and then generate
     // @ts-ignore: Unreachable code error
     fs.__setFileReferential(fileReferential);
 
-    const resultCode = generate();
+    generate();
     // when mkdirSync is called, it would set the value of content to DIRECTORY for a directory
-    expect(resultCode).toBe(RETURN_CODES.SUCCESS);
     expect(fileReferential.length).toBe(2);
     expect(fileReferential[0]).toEqual({
         type: 'directory',
@@ -43,8 +41,7 @@ test('should generate the migration file with a specific content', () => {
     // @ts-ignore: Unreachable code error
     fs.__setFileReferential(fileReferential);
 
-    const resultCode = generate(null, 1);
-    expect(resultCode).toBe(RETURN_CODES.SUCCESS);
+    generate(null, 1);
     // when mkdirSync is called, it would set the value of content to DIRECTORY for a directory
     expect(fileReferential.length).toBe(2);
     expect(fileReferential[0]).toEqual(createdDirectory);
@@ -84,7 +81,7 @@ module.exports = migration1;
     });
 });
 
-test('should generate the migration file with a specific content', () => {
+test('should raise an exception if the file exists', () => {
     const createdDirectory = {
         type: 'directory',
         path: 'migrations',
@@ -93,12 +90,13 @@ test('should generate the migration file with a specific content', () => {
     const existingFile = {
         type: 'file',
         path: 'migrations/migration1.js',
-        content: 'qny file content',
+        content: 'any file content',
     };
     let fileReferential: Array<FsEntry> = [createdDirectory, existingFile];
     // @ts-ignore: Unreachable code error
     fs.__setFileReferential(fileReferential);
 
-    const resultCode = generate(null, 1);
-    expect(resultCode).toBe(RETURN_CODES.RUNTIME_ERROR);
+    expect(() => generate(null, 1)).toThrowError(
+        'File "migrations/migration1.js" already exists.'
+    );
 });
