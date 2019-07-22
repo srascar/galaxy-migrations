@@ -1,13 +1,8 @@
 jest.mock('fs');
 jest.mock('path');
 import * as fs from 'fs';
+import { FsEntry } from '../__interfaces__/mockInterfaces';
 import generate from './generate';
-
-interface FsEntry {
-    type: string;
-    path: string;
-    content: string;
-}
 
 test('should try to create the output directory if not exists, and then generate the migration file', () => {
     let fileReferential: Array<FsEntry> = [];

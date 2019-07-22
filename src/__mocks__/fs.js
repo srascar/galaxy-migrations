@@ -24,9 +24,18 @@ function mkdirSync(path) {
     writeFileSync(path, 'DIRECTORY', 'directory');
 }
 
+function readFileSync(path) {
+    const files = referential.filter(value => value.path === path);
+    if (files.length > 0) {
+        return files[0].content;
+    }
+    throw new Error(`File ${path} does not exist`);
+}
+
 fs.__setFileReferential = __setFileReferential;
 fs.writeFileSync = writeFileSync;
 fs.existsSync = existsSync;
 fs.mkdirSync = mkdirSync;
+fs.readFileSync = readFileSync;
 
 module.exports = fs;
