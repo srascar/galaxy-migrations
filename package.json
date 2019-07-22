@@ -4,6 +4,8 @@
     "description": "Lightweight migration library in Node.js for NoSQL Document databases",
     "main": "index.js",
     "scripts": {
+        "build": "tsc",
+        "build-dev": "tsc --watch",
         "test": "jest"
     },
     "repository": {
