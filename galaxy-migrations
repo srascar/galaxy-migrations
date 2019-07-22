@@ -16,6 +16,11 @@ program
     .description('Generate a blank migration file')
     .action(commands.generate);
 
+program
+    .command('execute')
+    .description('Execute a specific migration up or down')
+    .action(commands.execute);
+
 program.parse(process.argv);
 
 // By default, display the list of commands
