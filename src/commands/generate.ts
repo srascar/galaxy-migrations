@@ -10,14 +10,16 @@ function pad(number: number) {
 }
 
 const generate = (
-    outputDir: string = 'migrations',
+    migrationsDir: string = 'migrations',
     version: number = null
 ): void => {
-    // Check if outputDir is undefined or null
-    const resolvedOutputDir = pathResolve(outputDir || 'migrations');
-    if (!existsSync(resolvedOutputDir)) {
-        console.log(`Successfully created directory "${resolvedOutputDir}" .`);
-        mkdirSync(resolvedOutputDir);
+    // Fallback to default value when migrationsDir is null
+    const resolvedMigrationsDir = pathResolve(migrationsDir || 'migrations');
+    if (!existsSync(resolvedMigrationsDir)) {
+        console.log(
+            `Successfully created directory "${resolvedMigrationsDir}" .`
+        );
+        mkdirSync(resolvedMigrationsDir);
     }
 
     const now = new Date();
@@ -31,7 +33,7 @@ const generate = (
               )}`
           );
 
-    const filePath = `${resolvedOutputDir}/migration${versionNumber}.js`;
+    const filePath = `${resolvedMigrationsDir}/migration${versionNumber}.js`;
     const content = generateMigrationContent(versionNumber);
 
     if (existsSync(filePath)) {

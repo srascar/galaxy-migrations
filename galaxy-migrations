@@ -5,20 +5,30 @@ const commands = require('./build');
 const commander = require('commander');
 const program = new commander.Command();
 
-program.version('0.0.1').option('-v, --verbose', 'Output extra debugging');
+program
+    .version('0.0.1')
+    .option('-v, --verbose', 'Output extra debugging')
+    .option(
+        '-c, --config-file <path>',
+        'Path to the config file. Default: "migrations_config.yml"'
+    );
 
 program
     .command('generate')
-    .option(
-        '-o, --output-dir <dir>',
-        'Path to the migration directory. Default = "migrations"'
-    )
     .description('Generate a blank migration file')
     .action(commands.generate);
 
 program
     .command('execute')
     .description('Execute a specific migration up or down')
+    .option(
+        '-m, --migration-version <version>',
+        'Name of migration. ex: 20190101000000'
+    )
+    .option(
+        '-w, --way <way>',
+        'Decide if the migration is played up or down. Values: up, down'
+    )
     .action(commands.execute);
 
 program.parse(process.argv);
