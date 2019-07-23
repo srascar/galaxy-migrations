@@ -4,15 +4,20 @@ const generateMigrationContent = (versionNumber: number) => `/**
 
 const migration${versionNumber} = {
     /**
-     * The query to execute
+     * The query to execute on the way up
      */
-    query: "SELECT * FROM c;",
+    queryUp: "SELECT * FROM c",
     /**
      * Callback to apply on each item during the migration
      *
      * It must return an Object
      */
     up: (itemBody) => itemBody,
+
+    /**
+     * The query to execute on the way down
+     */
+    queryDown: "SELECT * FROM c",
     /**
      * Callback to apply on each item during the rollback
      *

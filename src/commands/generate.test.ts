@@ -3,13 +3,20 @@ jest.mock('path');
 import * as fs from 'fs';
 import { FsEntry } from '../__interfaces__/mockInterfaces';
 import generate from './generate';
+import MigrationResolver from '../services/migrationResolver';
 
 test('should try to create the output directory if not exists, and then generate the migration file', () => {
     let fileReferential: Array<FsEntry> = [];
     // @ts-ignore: Unreachable code error
     fs.__setFileReferential(fileReferential);
+    const migrationDir = MigrationResolver.getMigrationDir();
+    const versionNumber = MigrationResolver.generateVersionNumber();
+    const filePath = MigrationResolver.getMigrationPath(
+        migrationDir,
+        versionNumber
+    );
 
-    generate();
+    generate(migrationDir, filePath, versionNumber);
     // when mkdirSync is called, it would set the value of content to DIRECTORY for a directory
     expect(fileReferential.length).toBe(2);
     expect(fileReferential[0]).toEqual({
@@ -35,8 +42,13 @@ test('should generate the migration file with a specific content', () => {
     let fileReferential: Array<FsEntry> = [createdDirectory];
     // @ts-ignore: Unreachable code error
     fs.__setFileReferential(fileReferential);
-
-    generate(null, 1);
+    const migrationDir = MigrationResolver.getMigrationDir();
+    const versionNumber = 1;
+    const filePath = MigrationResolver.getMigrationPath(
+        migrationDir,
+        versionNumber
+    );
+    generate(migrationDir, filePath, versionNumber);
     // when mkdirSync is called, it would set the value of content to DIRECTORY for a directory
     expect(fileReferential.length).toBe(2);
     expect(fileReferential[0]).toEqual(createdDirectory);
@@ -50,15 +62,20 @@ test('should generate the migration file with a specific content', () => {
 
 const migration1 = {
     /**
-     * The query to execute
+     * The query to execute on the way up
      */
-    query: "SELECT * FROM c;",
+    queryUp: "SELECT * FROM c",
     /**
      * Callback to apply on each item during the migration
      *
      * It must return an Object
      */
     up: (itemBody) => itemBody,
+
+    /**
+     * The query to execute on the way down
+     */
+    queryDown: "SELECT * FROM c",
     /**
      * Callback to apply on each item during the rollback
      *
@@ -90,8 +107,13 @@ test('should raise an exception if the file exists', () => {
     let fileReferential: Array<FsEntry> = [createdDirectory, existingFile];
     // @ts-ignore: Unreachable code error
     fs.__setFileReferential(fileReferential);
-
-    expect(() => generate(null, 1)).toThrowError(
+    const migrationDir = MigrationResolver.getMigrationDir();
+    const versionNumber = 1;
+    const filePath = MigrationResolver.getMigrationPath(
+        migrationDir,
+        versionNumber
+    );
+    expect(() => generate(migrationDir, filePath, versionNumber)).toThrowError(
         'File "migrations/migration1.js" already exists.'
     );
 });

@@ -29,6 +29,10 @@ program
         '-w, --way <way>',
         'Decide if the migration is played up or down. Values: up, down'
     )
+    .option(
+        '-d, --dry-run',
+        'Execute the migration but does not apply any change to the database'
+    )
     .action(commands.execute);
 
 program.parse(process.argv);

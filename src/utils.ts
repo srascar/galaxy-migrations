@@ -54,4 +54,11 @@ const traverseKeysRecursively = <T>(
     );
 };
 
-export { cli, snakeToCamelCase, traverseKeysRecursively };
+function pad(number: number) {
+    if (number < 10) {
+        return '0' + number;
+    }
+    return number;
+}
+
+export { cli, snakeToCamelCase, traverseKeysRecursively, pad };

@@ -1,9 +1,11 @@
-import { Connection, MIGRATION_WAYS } from '../services/dictionary';
+import { Connection, Migration, MIGRATION_WAYS } from '../services/dictionary';
 
 const execute = (
     connection: Connection,
-    migrationVersion: string,
-    way: MIGRATION_WAYS
+    migrationVersion: Migration,
+    way: MIGRATION_WAYS,
+    dryRun = false,
+    verbose = false
 ): void => null;
 
 export default execute;

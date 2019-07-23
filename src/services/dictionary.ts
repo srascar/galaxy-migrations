@@ -1,3 +1,5 @@
+const DEFAULT_MIGRATION_DIR = 'migrations';
+
 enum SUPPORTED_CONNECTORS {
     azure_cosmos_db = 'azure_cosmos_db',
 }
@@ -35,10 +37,20 @@ interface Connection {
     item: any;
 }
 
+interface Migration {
+    queryUp: string;
+    up: <T>(item: T) => T;
+    queryDown: string;
+    down: <T>(item: T) => T;
+    versionNumber: number;
+}
+
 export {
     DatabaseConfiguration,
     Configuration,
     Connection,
+    Migration,
+    DEFAULT_MIGRATION_DIR,
     ALLOWED_KEYS,
     SUPPORTED_CONNECTORS,
     MIGRATION_WAYS,
