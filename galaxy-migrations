@@ -19,12 +19,8 @@ program
     .action(commands.generate);
 
 program
-    .command('execute')
+    .command('execute <migration-version>')
     .description('Execute a specific migration up or down')
-    .option(
-        '-m, --migration-version <version>',
-        'Name of migration. ex: 20190101000000'
-    )
     .option(
         '-w, --way <way>',
         'Decide if the migration is played up or down. Values: up, down'

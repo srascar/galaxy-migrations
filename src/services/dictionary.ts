@@ -1,4 +1,7 @@
 const DEFAULT_MIGRATION_DIR = 'migrations';
+const MIGRATION_VERSION_FIELD = '_migrationVersion';
+const STANDARD_QUERY = 'SELECT * FROM c';
+const CHECK_QUERY_TEMPLATE = `SELECT VALUE count(1) FROM c WHERE NOT is_defined(c.c.${MIGRATION_VERSION_FIELD}) OR c.${MIGRATION_VERSION_FIELD}`;
 
 enum SUPPORTED_CONNECTORS {
     azure_cosmos_db = 'azure_cosmos_db',
@@ -40,8 +43,11 @@ interface Connection {
 interface Migration {
     queryUp: string;
     up: <T>(item: T) => T;
+    checkQueryUp?: string;
     queryDown: string;
     down: <T>(item: T) => T;
+    checkQueryDown?: string;
+    queryOptions: object;
     versionNumber: number;
 }
 
@@ -54,4 +60,7 @@ export {
     ALLOWED_KEYS,
     SUPPORTED_CONNECTORS,
     MIGRATION_WAYS,
+    MIGRATION_VERSION_FIELD,
+    STANDARD_QUERY,
+    CHECK_QUERY_TEMPLATE,
 };

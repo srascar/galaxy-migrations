@@ -10,7 +10,7 @@ const generateAzureCosmosClient = (
     const CosmosClient = require('@azure/cosmos').CosmosClient;
     const connection = new CosmosClient({
         endpoint: config.endpoint,
-        auth: { masterKey: config.primaryKey },
+        key: config.primaryKey,
     })
         .database(config.name)
         .container(config.container);

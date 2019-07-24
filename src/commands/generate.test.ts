@@ -62,6 +62,14 @@ test('should generate the migration file with a specific content', () => {
 
 const migration1 = {
     /**
+     * This query is executed before the up query.
+     * It MUST return a single count.
+     * If the count is 0, then the migration doesn't need to be played.
+     *
+     * Set this value to null to force the execution of the migration.
+     */
+    checkQueryUp: "SELECT VALUE count(1) FROM c WHERE NOT is_defined(c.c._migrationVersion) OR c._migrationVersion < 1",
+    /**
      * The query to execute on the way up
      */
     queryUp: "SELECT * FROM c",
@@ -73,6 +81,14 @@ const migration1 = {
     up: (itemBody) => itemBody,
 
     /**
+     * This query is executed before the down query.
+     * It MUST return a single count.
+     * If the count is 0, then the migration doesn't need to be played.
+     *
+     * Set this value to null to force the execution of the migration.
+     */
+    checkQueryDown: "SELECT VALUE count(1) FROM c WHERE NOT is_defined(c.c._migrationVersion) OR c._migrationVersion > 1",
+    /**
      * The query to execute on the way down
      */
     queryDown: "SELECT * FROM c",
@@ -82,6 +98,12 @@ const migration1 = {
      * It must return an Object
      */
     down: (itemBody) => itemBody,
+    /**
+     * Options to pass the the queries
+     * ex: { enableCrossPartitionQuery: true }
+     */
+    queryOptions: {},
+
     /**
      * Version number to apply on each item updated by this migration
      */
