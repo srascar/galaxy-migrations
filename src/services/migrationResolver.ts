@@ -44,7 +44,7 @@ const MigrationResolver: MigrationResolverInterface = {
             return require(migrationPath);
         } catch (err) {
             throw new Error(
-                `Error: An error occured when trying to get migration "${migrationPath}"`
+                `An error occured when trying to get migration "${migrationPath}"`
             );
         }
     },

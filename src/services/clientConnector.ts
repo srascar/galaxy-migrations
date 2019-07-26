@@ -1,10 +1,9 @@
 import { DatabaseConfiguration, SUPPORTED_CONNECTORS } from './dictionary';
-import { Container } from '@azure/cosmos';
+import { CosmosClient, Container } from '@azure/cosmos';
 
-const generateAzureCosmosClient = (
+const connectAzureCosmosContainer = (
     config: DatabaseConfiguration
 ): Container => {
-    const CosmosClient = require('@azure/cosmos').CosmosClient;
     const container = new CosmosClient({
         endpoint: config.endpoint,
         key: config.primaryKey,
@@ -18,7 +17,7 @@ const generateAzureCosmosClient = (
 const clientConnector = (config: DatabaseConfiguration): Container => {
     switch (config.connector) {
         case SUPPORTED_CONNECTORS.azure_cosmos_db:
-            return generateAzureCosmosClient(config);
+            return connectAzureCosmosContainer(config);
         default:
             throw new Error(`Connector "${config.connector}" is not supported`);
     }

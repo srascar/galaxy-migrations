@@ -2,7 +2,7 @@ import { Container } from '@azure/cosmos';
 import clientConnector from './clientConnector';
 import { SUPPORTED_CONNECTORS } from './dictionary';
 
-test('should an instance of container for azure cosmos db', () => {
+test('should be an instance of container for azure cosmos db', () => {
     const config = {
         connector: SUPPORTED_CONNECTORS.azure_cosmos_db,
         endpoint: 'https://localhost:443/',

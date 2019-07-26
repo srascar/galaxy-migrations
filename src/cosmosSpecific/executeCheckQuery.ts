@@ -1,4 +1,3 @@
-import { Migration } from '../services/dictionary';
 import { Container } from '@azure/cosmos';
 
 const executeCheckQuery = async (
@@ -16,7 +15,7 @@ const executeCheckQuery = async (
         !Number.isInteger(results[0])
     ) {
         throw new Error(
-            `Error: A valid check query must return a unique number. Recieved ${results}`
+            `A valid check query must return a unique number. Recieved ${results}`
         );
     }
 
