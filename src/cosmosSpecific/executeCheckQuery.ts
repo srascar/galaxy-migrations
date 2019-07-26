@@ -1,12 +1,13 @@
-import { Connection, Migration } from '../services/dictionary';
+import { Migration } from '../services/dictionary';
+import { Container } from '@azure/cosmos';
 
 const executeCheckQuery = async (
-    connection: Connection,
+    container: Container,
     checkQuery: string,
-    migration: Migration
+    queryOptions: object
 ): Promise<number> => {
-    const response = await connection.items
-        .query(checkQuery, migration.queryOptions)
+    const response = await container.items
+        .query(checkQuery, queryOptions)
         .fetchAll();
     const results = response.resources;
     if (

@@ -1,5 +1,6 @@
-import { Connection, Migration, MIGRATION_WAYS } from '../services/dictionary';
+import { Migration, MIGRATION_WAYS } from '../services/dictionary';
 import executeCheckQuery from '../cosmosSpecific/executeCheckQuery';
+import { Container } from '@azure/cosmos';
 
 const getQueries = (
     migration: Migration,
@@ -14,7 +15,7 @@ const getQueries = (
 };
 
 const execute = async (
-    connection: Connection,
+    container: Container,
     migration: Migration,
     way: MIGRATION_WAYS,
     dryRun = false,
@@ -24,9 +25,9 @@ const execute = async (
 
     if (checkQuery) {
         const checkCount = await executeCheckQuery(
-            connection,
+            container,
             checkQuery,
-            migration
+            migration.queryOptions
         );
 
         console.log(

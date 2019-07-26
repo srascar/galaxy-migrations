@@ -35,11 +35,6 @@ interface Configuration {
     database: DatabaseConfiguration;
 }
 
-interface Connection {
-    items: any;
-    item: any;
-}
-
 interface Migration {
     queryUp: string;
     up: <T>(item: T) => T;
@@ -54,7 +49,6 @@ interface Migration {
 export {
     DatabaseConfiguration,
     Configuration,
-    Connection,
     Migration,
     DEFAULT_MIGRATION_DIR,
     ALLOWED_KEYS,

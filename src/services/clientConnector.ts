@@ -1,24 +1,21 @@
-import {
-    DatabaseConfiguration,
-    Connection,
-    SUPPORTED_CONNECTORS,
-} from './dictionary';
+import { DatabaseConfiguration, SUPPORTED_CONNECTORS } from './dictionary';
+import { Container } from '@azure/cosmos';
 
 const generateAzureCosmosClient = (
     config: DatabaseConfiguration
-): Connection => {
+): Container => {
     const CosmosClient = require('@azure/cosmos').CosmosClient;
-    const connection = new CosmosClient({
+    const container = new CosmosClient({
         endpoint: config.endpoint,
         key: config.primaryKey,
     })
         .database(config.name)
         .container(config.container);
 
-    return connection;
+    return container;
 };
 
-const clientConnector = (config: DatabaseConfiguration): Connection => {
+const clientConnector = (config: DatabaseConfiguration): Container => {
     switch (config.connector) {
         case SUPPORTED_CONNECTORS.azure_cosmos_db:
             return generateAzureCosmosClient(config);

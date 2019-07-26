@@ -7,7 +7,7 @@ import MigrationResolver from '../services/migrationResolver';
 
 const decoratedExecute = async (migrationVersion: number, cmd: Command) => {
     const config = configLoader(cmd.configFile);
-    const connection = clientConnector(config.database);
+    const container = clientConnector(config.database);
     const migrationDir = MigrationResolver.getMigrationDir(
         config.migrationsDir
     );
@@ -15,7 +15,7 @@ const decoratedExecute = async (migrationVersion: number, cmd: Command) => {
         MigrationResolver.getMigrationPath(migrationDir, migrationVersion)
     );
     await execute(
-        connection,
+        container,
         migration,
         cmd.way,
         cmd.dryRun,

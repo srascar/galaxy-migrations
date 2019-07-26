@@ -11,8 +11,8 @@ test('should an instance of container for azure cosmos db', () => {
         container: 'my_container',
     };
 
-    const connection = clientConnector(config);
-    expect(connection).toBeInstanceOf(Container);
+    const container = clientConnector(config);
+    expect(container).toBeInstanceOf(Container);
 });
 
 test('should throw an error if connector is not supported', () => {
