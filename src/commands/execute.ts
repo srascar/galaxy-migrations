@@ -1,16 +1,27 @@
 import { Migration, MIGRATION_WAYS } from '../services/dictionary';
 import executeCheckQuery from '../cosmosSpecific/executeCheckQuery';
-import { Container } from '@azure/cosmos';
+import { Container, SqlQuerySpec } from '@azure/cosmos';
+import executeQuery from '../cosmosSpecific/executeQuery';
+import processResults from '../cosmosSpecific/processResults';
 
 const getQueries = (
     migration: Migration,
     way: MIGRATION_WAYS
-): { query: string; checkQuery: string } => {
+): {
+    query: string | SqlQuerySpec;
+    checkQuery: string | SqlQuerySpec;
+    callback: <T>(item: T) => T;
+} => {
     return !way || way === MIGRATION_WAYS.up
-        ? { query: migration.queryUp, checkQuery: migration.checkQueryUp }
+        ? {
+              query: migration.queryUp,
+              checkQuery: migration.checkQueryUp,
+              callback: migration.up,
+          }
         : {
               query: migration.queryDown,
               checkQuery: migration.checkQueryDown,
+              callback: migration.down,
           };
 };
 
@@ -21,7 +32,13 @@ const execute = async (
     dryRun = false,
     verbose = false
 ): Promise<void> => {
-    const { query, checkQuery } = getQueries(migration, way);
+    const { query, checkQuery, callback } = getQueries(migration, way);
+
+    if (!(typeof callback === 'function')) {
+        throw new Error(
+            `"${way}" attribute must be a function. "${typeof callback}" received`
+        );
+    }
 
     if (checkQuery) {
         const checkCount = await executeCheckQuery(
@@ -30,12 +47,43 @@ const execute = async (
             migration.queryOptions
         );
 
-        console.log(
-            checkCount === 0
-                ? 'No need to execute this migration'
-                : `${checkCount} documents will be updated by this migration`
-        );
+        if (checkCount === 0) {
+            console.log('Migration not execute because its check count is 0');
+            return;
+        }
     }
+
+    const response = await executeQuery(
+        container,
+        query,
+        migration.queryOptions
+    );
+    const itemPromises = processResults(
+        container,
+        response,
+        callback,
+        migration.versionNumber,
+        migration.documentMeta
+    );
+
+    if (dryRun) {
+        return;
+    }
+
+    let promises = [];
+    let i = 0;
+
+    for (var itemPromise of itemPromises) {
+        promises.push(itemPromise);
+        i++;
+
+        if (!(i % 10)) {
+            await Promise.all(promises);
+            promises = [];
+        }
+    }
+
+    await Promise.all(promises);
 };
 
 export default execute;

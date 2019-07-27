@@ -21,7 +21,7 @@ test('should throw an exception in any other case', async () => {
     }
     expect(error).toEqual(
         new Error(
-            'Error: A valid check query must return a unique number. Recieved [object Object]'
+            'A valid check query must return a unique number. Recieved [object Object]'
         )
     );
 
@@ -35,7 +35,7 @@ test('should throw an exception in any other case', async () => {
     }
     expect(error).toEqual(
         new Error(
-            'Error: A valid check query must return a unique number. Recieved 123,456'
+            'A valid check query must return a unique number. Recieved 123,456'
         )
     );
 });

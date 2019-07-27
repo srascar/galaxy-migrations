@@ -12,11 +12,11 @@ const migration${versionNumber} = {
      *
      * Set this value to null to force the execution of the migration.
      */
-    checkQueryUp: "${CHECK_QUERY_TEMPLATE} < ${versionNumber}",
+    checkQueryUp: '${CHECK_QUERY_TEMPLATE} < ${versionNumber}',
     /**
      * The query to execute on the way up
      */
-    queryUp: "${STANDARD_QUERY}",
+    queryUp: '${STANDARD_QUERY}',
     /**
      * Callback to apply on each item during the migration
      *
@@ -31,11 +31,11 @@ const migration${versionNumber} = {
      *
      * Set this value to null to force the execution of the migration.
      */
-    checkQueryDown: "${CHECK_QUERY_TEMPLATE} > ${versionNumber}",
+    checkQueryDown: '${CHECK_QUERY_TEMPLATE} > ${versionNumber}',
     /**
      * The query to execute on the way down
      */
-    queryDown: "${STANDARD_QUERY}",
+    queryDown: '${STANDARD_QUERY}',
     /**
      * Callback to apply on each item during the rollback
      *
@@ -52,6 +52,10 @@ const migration${versionNumber} = {
      * Version number to apply on each item updated by this migration
      */
     versionNumber: ${versionNumber},
+    /**
+     * Information about the documents that are being transformed
+     */
+    documentMeta: { idField: 'id', partitionKey: 'id' },
 }
 
 module.exports = migration${versionNumber};

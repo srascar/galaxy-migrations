@@ -1,3 +1,5 @@
+import { SqlQuerySpec } from '@azure/cosmos';
+
 const DEFAULT_MIGRATION_DIR = 'migrations';
 const MIGRATION_VERSION_FIELD = '_migrationVersion';
 const STANDARD_QUERY = 'SELECT * FROM c';
@@ -36,20 +38,27 @@ interface Configuration {
 }
 
 interface Migration {
-    queryUp: string;
+    queryUp: string | SqlQuerySpec;
     up: <T>(item: T) => T;
-    checkQueryUp?: string;
-    queryDown: string;
+    checkQueryUp?: string | SqlQuerySpec;
+    queryDown: string | SqlQuerySpec;
     down: <T>(item: T) => T;
-    checkQueryDown?: string;
+    checkQueryDown?: string | SqlQuerySpec;
     queryOptions: object;
     versionNumber: number;
+    documentMeta: DocumentMeta;
+}
+
+interface DocumentMeta {
+    idField: string;
+    partitionKey: string;
 }
 
 export {
     DatabaseConfiguration,
     Configuration,
     Migration,
+    DocumentMeta,
     DEFAULT_MIGRATION_DIR,
     ALLOWED_KEYS,
     SUPPORTED_CONNECTORS,

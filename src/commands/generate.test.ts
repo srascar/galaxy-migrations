@@ -68,11 +68,11 @@ const migration1 = {
      *
      * Set this value to null to force the execution of the migration.
      */
-    checkQueryUp: "SELECT VALUE count(1) FROM c WHERE NOT is_defined(c.c._migrationVersion) OR c._migrationVersion < 1",
+    checkQueryUp: 'SELECT VALUE count(1) FROM c WHERE NOT is_defined(c.c._migrationVersion) OR c._migrationVersion < 1',
     /**
      * The query to execute on the way up
      */
-    queryUp: "SELECT * FROM c",
+    queryUp: 'SELECT * FROM c',
     /**
      * Callback to apply on each item during the migration
      *
@@ -87,11 +87,11 @@ const migration1 = {
      *
      * Set this value to null to force the execution of the migration.
      */
-    checkQueryDown: "SELECT VALUE count(1) FROM c WHERE NOT is_defined(c.c._migrationVersion) OR c._migrationVersion > 1",
+    checkQueryDown: 'SELECT VALUE count(1) FROM c WHERE NOT is_defined(c.c._migrationVersion) OR c._migrationVersion > 1',
     /**
      * The query to execute on the way down
      */
-    queryDown: "SELECT * FROM c",
+    queryDown: 'SELECT * FROM c',
     /**
      * Callback to apply on each item during the rollback
      *
@@ -108,6 +108,10 @@ const migration1 = {
      * Version number to apply on each item updated by this migration
      */
     versionNumber: 1,
+    /**
+     * Information about the documents that are being transformed
+     */
+    documentMeta: { idField: 'id', partitionKey: 'id' },
 }
 
 module.exports = migration1;

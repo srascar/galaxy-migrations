@@ -1,8 +1,8 @@
-import { Container } from '@azure/cosmos';
+import { Container, SqlQuerySpec } from '@azure/cosmos';
 
 const executeCheckQuery = async (
     container: Container,
-    checkQuery: string,
+    checkQuery: string | SqlQuerySpec,
     queryOptions: object
 ): Promise<number> => {
     const response = await container.items

@@ -41,7 +41,7 @@ describe('getMigration', () => {
     });
     test('should throw an exception in case of invalid path', () => {
         expect(() => MigrationResolver.getMigration('fake')).toThrowError(
-            'Error: An error occured when trying to get migration "fake"'
+            'An error occured when trying to get migration "fake"'
         );
     });
 });
