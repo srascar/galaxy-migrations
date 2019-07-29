@@ -1,14 +1,17 @@
 import { FeedResponse, Container } from '@azure/cosmos';
 import { DocumentMeta, MIGRATION_VERSION_FIELD } from '../services/dictionary';
 
-const processResults = (
+const prepareUpdatePromises = (
     container: Container,
     response: FeedResponse<any>,
     callback: <T>(item: T, index?: number) => T,
     versionNumber: number,
-    documentMeta: DocumentMeta
+    documentMeta: DocumentMeta,
+    verbose: boolean = false
 ): Array<Promise<any>> => {
     const results = response.resources;
+    console.log(`${results.length} items to migrate`);
+
     return results.map((item, index) => {
         const newItem = callback(item, index);
 
@@ -29,6 +32,10 @@ const processResults = (
 
         newItem[MIGRATION_VERSION_FIELD] = versionNumber;
 
+        if (verbose) {
+            console.log({ newItem });
+        }
+
         return container
             .item(
                 newItem[documentMeta.idField],
@@ -38,4 +45,4 @@ const processResults = (
     });
 };
 
-export default processResults;
+export default prepareUpdatePromises;

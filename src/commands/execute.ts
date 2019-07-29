@@ -2,7 +2,8 @@ import { Migration, MIGRATION_WAYS } from '../services/dictionary';
 import executeCheckQuery from '../cosmosSpecific/executeCheckQuery';
 import { Container, SqlQuerySpec } from '@azure/cosmos';
 import executeQuery from '../cosmosSpecific/executeQuery';
-import processResults from '../cosmosSpecific/processResults';
+import prepareUpdatePromises from '../cosmosSpecific/prepareUpdatePromises';
+import batchExecutePromises from '../cosmosSpecific/batchExecutePromises';
 
 const getQueries = (
     migration: Migration,
@@ -58,32 +59,21 @@ const execute = async (
         query,
         migration.queryOptions
     );
-    const itemPromises = processResults(
+    const promises = prepareUpdatePromises(
         container,
         response,
         callback,
         migration.versionNumber,
-        migration.documentMeta
+        migration.documentMeta,
+        verbose
     );
 
     if (dryRun) {
         return;
     }
 
-    let promises = [];
-    let i = 0;
-
-    for (var itemPromise of itemPromises) {
-        promises.push(itemPromise);
-        i++;
-
-        if (!(i % 10)) {
-            await Promise.all(promises);
-            promises = [];
-        }
-    }
-
-    await Promise.all(promises);
+    batchExecutePromises(promises);
+    console.log('Items succesfully updated');
 };
 
 export default execute;

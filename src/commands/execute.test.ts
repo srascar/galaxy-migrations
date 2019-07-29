@@ -127,3 +127,103 @@ test('should iterate and apply the migration calback on the loaded items', async
         _migrationVersion: 1,
     });
 });
+
+test('should through an exception if idField is not found', async () => {
+    const container = new cosmos.Container(null, 'id', null);
+    container.items.query = jest.fn();
+    container.item = jest.fn();
+    const replaceCallback = jest.fn();
+    // @ts-ignore: Unreachable code error
+    container.item.mockReturnValue({
+        replace: replaceCallback,
+    });
+    // @ts-ignore: Unreachable code error
+    container.items.query.mockReturnValueOnce({
+        fetchAll: () => new Promise(resolve => resolve({ resources: [10] })),
+    });
+    // @ts-ignore: Unreachable code error
+    container.items.query.mockReturnValueOnce({
+        fetchAll: () =>
+            new Promise(resolve =>
+                resolve({
+                    resources: [
+                        { name: 'item1' },
+                        { invalid: 'item2' },
+                        { name: 'item3' },
+                    ],
+                })
+            ),
+    });
+    const migration: Migration = {
+        checkQueryUp: 'checkQueryUp',
+        queryUp: { query: 'queryUp in querySpec format', parameters: [] },
+        up: item => ({ ...item, changed: true }),
+        queryDown: 'queryDown',
+        down: item => item,
+        queryOptions: {},
+        versionNumber: 1,
+        documentMeta: { idField: 'name', partitionKey: 'name' },
+    };
+
+    let error = null;
+    try {
+        await execute(container, migration, MIGRATION_WAYS.up);
+    } catch (e) {
+        error = e;
+    }
+    expect(error).toEqual(
+        new Error(
+            'Cannot update item "[object Object]". The key "name" does not exists.'
+        )
+    );
+});
+
+test('should through an exception if partition key is not found', async () => {
+    const container = new cosmos.Container(null, 'id', null);
+    container.items.query = jest.fn();
+    container.item = jest.fn();
+    const replaceCallback = jest.fn();
+    // @ts-ignore: Unreachable code error
+    container.item.mockReturnValue({
+        replace: replaceCallback,
+    });
+    // @ts-ignore: Unreachable code error
+    container.items.query.mockReturnValueOnce({
+        fetchAll: () => new Promise(resolve => resolve({ resources: [10] })),
+    });
+    // @ts-ignore: Unreachable code error
+    container.items.query.mockReturnValueOnce({
+        fetchAll: () =>
+            new Promise(resolve =>
+                resolve({
+                    resources: [
+                        { name: 'item1' },
+                        { name: 'item2' },
+                        { name: 'item3' },
+                    ],
+                })
+            ),
+    });
+    const migration: Migration = {
+        checkQueryUp: 'checkQueryUp',
+        queryUp: { query: 'queryUp in querySpec format', parameters: [] },
+        up: item => ({ ...item, changed: true }),
+        queryDown: 'queryDown',
+        down: item => item,
+        queryOptions: {},
+        versionNumber: 1,
+        documentMeta: { idField: 'name', partitionKey: 'unknown' },
+    };
+
+    let error = null;
+    try {
+        await execute(container, migration, MIGRATION_WAYS.up);
+    } catch (e) {
+        error = e;
+    }
+    expect(error).toEqual(
+        new Error(
+            'Cannot update item "[object Object]". The partition key "unknown" does not exists.'
+        )
+    );
+});
