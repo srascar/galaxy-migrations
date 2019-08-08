@@ -6,21 +6,26 @@ import execute from '../commands/execute';
 import MigrationResolver from '../services/migrationResolver';
 import catchableProcess from '../decorators/catchableProcess';
 
-const decoratedExecute = async (migrationVersion: number, cmd: Command) => {
+const decoratedExecute = async (cmd: Command) => {
     const config = configLoader(cmd.configFile);
     const container = clientConnector(config.database);
     const migrationDir = MigrationResolver.getMigrationDir(
         config.migrationsDir
     );
-    const migration = MigrationResolver.getMigration(
-        MigrationResolver.getMigrationPath(migrationDir, migrationVersion)
-    );
-    await execute(
-        container,
-        migration,
-        cmd.way,
-        cmd.dryRun,
-        cmd.parent.verbose
+    const migrationFiles = MigrationResolver.readMigrationDir(migrationDir);
+    await Promise.all(
+        migrationFiles.map(migrationFile => {
+            const migration = MigrationResolver.getMigration(
+                `${migrationDir}/${migrationFile}`
+            );
+            return execute(
+                container,
+                migration,
+                cmd.way,
+                cmd.dryRun,
+                cmd.parent.verbose
+            );
+        })
     );
 };
 

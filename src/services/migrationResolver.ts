@@ -1,9 +1,11 @@
 import { Migration, DEFAULT_MIGRATION_DIR } from './dictionary';
 import { resolve as pathResolve } from 'path';
 import { pad } from '../utils';
+import { readdirSync } from 'fs';
 
 interface MigrationResolverInterface {
     getMigrationDir: (migrationsDir?: string) => string;
+    readMigrationDir: (migrationsDir: string) => string[];
     getMigrationPath: (migrationsDir: string, versionNumber: number) => string;
     generateVersionNumber: () => number;
     getMigration: (migrationsPath: string) => Migration;
@@ -18,6 +20,9 @@ const MigrationResolver: MigrationResolverInterface = {
         }
 
         return pathResolve(trimedPath);
+    },
+    readMigrationDir: (migrationsDir: string): string[] => {
+        return readdirSync(migrationsDir);
     },
     getMigrationPath: (
         migrationsDir: string = DEFAULT_MIGRATION_DIR,

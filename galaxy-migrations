@@ -31,6 +31,19 @@ program
     )
     .action(commands.execute);
 
+program
+    .command('migrate')
+    .description('Execute all migrations in the configured directory')
+    .option(
+        '-w, --way <way>',
+        'Decide if the migration is played up or down. Values: up, down'
+    )
+    .option(
+        '-d, --dry-run',
+        'Execute the migration but does not apply any change to the database'
+    )
+    .action(commands.migrate);
+
 program.parse(process.argv);
 
 // By default, display the list of commands

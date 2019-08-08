@@ -34,6 +34,7 @@ const execute = async (
     verbose = false
 ): Promise<void> => {
     const { query, checkQuery, callback } = getQueries(migration, way);
+    console.log(`Starting migration ${migration.versionNumber}`);
 
     if (!(typeof callback === 'function')) {
         throw new Error(
@@ -73,7 +74,7 @@ const execute = async (
     }
 
     batchExecutePromises(promises);
-    console.log('Items succesfully updated');
+    console.log('SUCCESS: Items succesfully updated');
 };
 
 export default execute;

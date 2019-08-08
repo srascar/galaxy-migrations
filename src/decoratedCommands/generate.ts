@@ -2,6 +2,7 @@ import { Command } from 'commander';
 import configLoader from '../services/configurationLoader';
 import generate from '../commands/generate';
 import MigrationResolver from '../services/migrationResolver';
+import catchableProcess from '../decorators/catchableProcess';
 
 const decoratedGenerate = (cmd: Command) => {
     const config = configLoader(cmd.parent.configFile);
@@ -16,4 +17,4 @@ const decoratedGenerate = (cmd: Command) => {
     generate(migrationDir, filePath, versionNumber);
 };
 
-export default decoratedGenerate;
+export default catchableProcess(decoratedGenerate);

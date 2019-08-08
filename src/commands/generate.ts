@@ -14,7 +14,6 @@ const generate = (
     const content = generateMigrationContent(versionNumber);
 
     if (existsSync(filePath)) {
-        console.log({ filePath });
         throw new Error(`File "${filePath}" already exists.`);
     }
 
