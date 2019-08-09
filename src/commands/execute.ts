@@ -70,7 +70,7 @@ const execute = async (
     );
 
     if (dryRun) {
-        return;
+        return console.log('SUCCESS: Dry run mode');
     }
 
     batchExecutePromises(promises);

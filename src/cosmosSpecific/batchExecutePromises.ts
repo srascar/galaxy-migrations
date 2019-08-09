@@ -1,12 +1,12 @@
 const batchExecutePromises = async (
-    promises: Array<Promise<any>>,
+    promises: Array<() => Promise<any>>,
     batchSize: number = 50
 ) => {
     let batch = [];
     let i = 0;
 
-    for (var promise of promises) {
-        batch.push(promise);
+    for (var wrappedPromise of promises) {
+        batch.push(wrappedPromise());
         i++;
 
         if (!(i % batchSize)) {

@@ -9,7 +9,7 @@ function __setNextResponse(nextResponse) {
 }
 
 function fetchAll() {
-    return new Promise((resolve, reject) => resolve(response));
+    return new Promise(resolve => resolve(response));
 }
 
 class Container {
@@ -18,6 +18,9 @@ class Container {
             fetchAll,
         }),
     };
+    item = () => ({
+        replace: obj => Promise.resolve(obj),
+    });
 }
 
 class CosmosClient {
@@ -25,9 +28,17 @@ class CosmosClient {
         container: () => new Container(),
     });
 }
+class FeedResponse {
+    constructor(resources, headers, hasMoreResults) {
+        this.resources = resources;
+        this.headers = headers;
+        this.hasMoreResults = hasMoreResults;
+    }
+}
 
 cosmos.__setNextResponse = __setNextResponse;
 cosmos.Container = Container;
 cosmos.CosmosClient = CosmosClient;
+cosmos.FeedResponse = FeedResponse;
 
 module.exports = cosmos;

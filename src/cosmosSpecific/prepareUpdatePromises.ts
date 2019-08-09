@@ -8,9 +8,13 @@ const prepareUpdatePromises = (
     versionNumber: number,
     documentMeta: DocumentMeta,
     verbose: boolean = false
-): Array<Promise<any>> => {
+): Array<() => Promise<any>> => {
     const results = response.resources;
     console.log(`${results.length} items to migrate`);
+
+    if (verbose) {
+        console.log('Updated items summary:');
+    }
 
     return results.map((item, index) => {
         const newItem = callback(item, index);
@@ -33,15 +37,27 @@ const prepareUpdatePromises = (
         newItem[MIGRATION_VERSION_FIELD] = versionNumber;
 
         if (verbose) {
-            console.log({ newItem });
+            console.log(
+                // @ts-ignore: Unreachable code error
+                Object.fromEntries([
+                    [documentMeta.idField, newItem[documentMeta.idField]],
+                    [
+                        documentMeta.partitionKey,
+                        newItem[documentMeta.partitionKey],
+                    ],
+                    [MIGRATION_VERSION_FIELD, newItem[MIGRATION_VERSION_FIELD]],
+                ])
+            );
         }
 
-        return container
-            .item(
-                newItem[documentMeta.idField],
-                newItem[documentMeta.partitionKey]
-            )
-            .replace(newItem);
+        // Wrap promises into a function so they are not automatically executed
+        return () =>
+            container
+                .item(
+                    newItem[documentMeta.idField],
+                    newItem[documentMeta.partitionKey]
+                )
+                .replace(newItem);
     });
 };
 
