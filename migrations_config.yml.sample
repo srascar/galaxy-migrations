@@ -1,7 +1,7 @@
 migrations_directory: migrations
 database:
     connector: azure_cosmos_db
-    endpoint: https://localhost:443/
+    endpoint: https://localhost.cosmosdb:443/
     primary_key: abcd
     name: my_database
     container: my_container

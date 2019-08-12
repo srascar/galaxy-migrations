@@ -7,7 +7,7 @@ const commands = require('./build');
 const program = new commander.Command();
 
 program
-    .version('0.0.1')
+    .version('1.0.0')
     .option('-v, --verbose', 'Output extra debugging')
     .option(
         '-c, --config-file <path>',

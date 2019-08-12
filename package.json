@@ -30,7 +30,7 @@
         "database"
     ],
     "author": "srascar",
-    "license": "ISC",
+    "license": "MIT",
     "bugs": {
         "url": "https://github.com/srascar/galaxy-migrations/issues"
     },
