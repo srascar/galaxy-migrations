@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
+/* tslint:disable */
+const commander = require('commander');
 const commands = require('./build');
 
-const commander = require('commander');
 const program = new commander.Command();
 
 program
