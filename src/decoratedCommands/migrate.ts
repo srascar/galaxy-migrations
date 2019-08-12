@@ -1,10 +1,10 @@
 import { Command } from 'commander';
 
-import configLoader from '../services/configurationLoader';
-import clientConnector from '../services/clientConnector';
 import execute from '../commands/execute';
-import MigrationResolver from '../services/migrationResolver';
 import catchableProcess from '../decorators/catchableProcess';
+import clientConnector from '../services/clientConnector';
+import configLoader from '../services/configurationLoader';
+import MigrationResolver from '../services/migrationResolver';
 
 const decoratedExecute = async (cmd: Command) => {
     const config = configLoader(cmd.configFile);

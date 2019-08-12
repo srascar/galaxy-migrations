@@ -3,7 +3,8 @@ import { SqlQuerySpec } from '@azure/cosmos';
 const DEFAULT_MIGRATION_DIR = 'migrations';
 const MIGRATION_VERSION_FIELD = '_migrationVersion';
 const STANDARD_QUERY = 'SELECT * FROM c';
-const CHECK_QUERY_TEMPLATE = `SELECT VALUE count(1) FROM c WHERE NOT is_defined(c.${MIGRATION_VERSION_FIELD}) OR c.${MIGRATION_VERSION_FIELD}`;
+const CHECK_QUERY_TEMPLATE = `SELECT VALUE count(1) FROM c WHERE NOT \
+is_defined(c.${MIGRATION_VERSION_FIELD}) OR c.${MIGRATION_VERSION_FIELD}`;
 
 enum SUPPORTED_CONNECTORS {
     azure_cosmos_db = 'azure_cosmos_db',

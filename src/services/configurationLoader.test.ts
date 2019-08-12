@@ -1,8 +1,9 @@
-jest.mock('fs');
-jest.mock('path');
 import * as fs from 'fs';
 import { FsEntry } from '../__interfaces__/mockInterfaces';
 import configurationLoader from './configurationLoader';
+
+jest.mock('fs');
+jest.mock('path');
 
 test('should parse the config file and return a valid object', () => {
     const configFile = {
@@ -16,7 +17,7 @@ database:
     name: my_database
     container: my_container`,
     };
-    let fileReferential: Array<FsEntry> = [configFile];
+    const fileReferential: FsEntry[] = [configFile];
     // @ts-ignore: Unreachable code error
     fs.__setFileReferential(fileReferential);
 
@@ -45,7 +46,7 @@ database:
     name: my_database
     container: my_container`,
     };
-    let fileReferential: Array<FsEntry> = [configFile];
+    const fileReferential: FsEntry[] = [configFile];
     // @ts-ignore: Unreachable code error
     fs.__setFileReferential(fileReferential);
     expect(() => configurationLoader()).toThrowError(
@@ -60,7 +61,7 @@ test('should raise a exception if database config is empty', () => {
         content: `migrations_dir: migrations
 database: false`,
     };
-    let fileReferential: Array<FsEntry> = [configFile];
+    const fileReferential: FsEntry[] = [configFile];
     // @ts-ignore: Unreachable code error
     fs.__setFileReferential(fileReferential);
     expect(() => configurationLoader()).toThrowError(

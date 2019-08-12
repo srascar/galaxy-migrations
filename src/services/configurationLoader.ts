@@ -1,9 +1,9 @@
-import * as YAML from 'yaml';
-import { resolve as pathResolve } from 'path';
 import { readFileSync } from 'fs';
-import { traverseKeysRecursively, snakeToCamelCase } from '../utils';
+import { resolve as pathResolve } from 'path';
 import { isObject } from 'util';
-import { Configuration, ALLOWED_KEYS } from './dictionary';
+import * as YAML from 'yaml';
+import { snakeToCamelCase, traverseKeysRecursively } from '../utils';
+import { ALLOWED_KEYS, Configuration } from './dictionary';
 
 const configurationLoader = (
     path: string = 'migrations_config.yml'

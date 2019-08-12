@@ -1,9 +1,9 @@
-import { Migration, MIGRATION_WAYS } from '../services/dictionary';
-import executeCheckQuery from '../cosmosSpecific/executeCheckQuery';
 import { Container, SqlQuerySpec } from '@azure/cosmos';
+import batchExecutePromises from '../cosmosSpecific/batchExecutePromises';
+import executeCheckQuery from '../cosmosSpecific/executeCheckQuery';
 import executeQuery from '../cosmosSpecific/executeQuery';
 import prepareUpdatePromises from '../cosmosSpecific/prepareUpdatePromises';
-import batchExecutePromises from '../cosmosSpecific/batchExecutePromises';
+import { Migration, MIGRATION_WAYS } from '../services/dictionary';
 
 const getQueries = (
     migration: Migration,

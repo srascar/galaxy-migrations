@@ -1,4 +1,4 @@
-import { FeedResponse, Container } from '@azure/cosmos';
+import { Container, FeedResponse } from '@azure/cosmos';
 import { DocumentMeta, MIGRATION_VERSION_FIELD } from '../services/dictionary';
 
 const prepareUpdatePromises = (

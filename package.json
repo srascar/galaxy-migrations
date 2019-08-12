@@ -1,46 +1,54 @@
 {
-    "name": "galaxy-migrations",
-    "version": "1.0.0",
-    "description": "Lightweight migration library in Node.js for NoSQL Document databases",
-    "main": "index.js",
-    "scripts": {
-        "build": "tsc",
-        "build-dev": "tsc --watch",
-        "test": "jest"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+ssh://git@github.com/srascar/galaxy-migrations.git"
-    },
-    "keywords": [
-        "command line",
-        "migration",
-        "cosmosdb",
-        "cosmos db",
-        "documentdb",
-        "document database",
-        "azure",
-        "nosql",
-        "database"
-    ],
-    "author": "srascar",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/srascar/galaxy-migrations/issues"
-    },
-    "homepage": "https://github.com/srascar/galaxy-migrations#readme",
-    "devDependencies": {
-        "@types/commander": "^2.12.2",
-        "@types/jest": "^24.0.15",
-        "@types/node": "^12.6.8",
-        "@types/yaml": "^1.0.2",
-        "jest": "^24.8.0",
-        "ts-jest": "^24.0.2",
-        "typescript": "^3.5.3"
-    },
-    "dependencies": {
-        "@azure/cosmos": "^3.0.4",
-        "commander": "^2.20.0",
-        "yaml": "^1.6.0"
-    }
+  "name": "@srascar/galaxy-migrations",
+  "version": "1.0.0",
+  "description": "Lightweight migration library in Node.js for NoSQL Document databases",
+  "main": "index.js",
+  "bin": {
+    "galaxy-migrations": "galaxy-migrations"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build-dev": "tsc --watch",
+    "check-format": "prettier --list-different --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\"",
+    "lint": "tslint --project ./tsconfig.json",
+    "prepack": "npm install && npm run build",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/srascar/galaxy-migrations.git"
+  },
+  "keywords": [
+    "command line",
+    "migration",
+    "cosmosdb",
+    "cosmos db",
+    "documentdb",
+    "document database",
+    "azure",
+    "nosql",
+    "database"
+  ],
+  "author": "srascar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/srascar/galaxy-migrations/issues"
+  },
+  "homepage": "https://github.com/srascar/galaxy-migrations#readme",
+  "devDependencies": {
+    "@types/commander": "^2.12.2",
+    "@types/jest": "^24.0.15",
+    "@types/node": "^12.6.8",
+    "@types/yaml": "^1.0.2",
+    "jest": "^24.8.0",
+    "prettier": "^1.18.2",
+    "ts-jest": "^24.0.2",
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.3"
+  },
+  "dependencies": {
+    "@azure/cosmos": "^3.0.4",
+    "commander": "^2.20.0",
+    "yaml": "^1.6.0"
+  }
 }

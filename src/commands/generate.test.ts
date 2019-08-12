@@ -1,12 +1,13 @@
-jest.mock('fs');
-jest.mock('path');
 import * as fs from 'fs';
 import { FsEntry } from '../__interfaces__/mockInterfaces';
-import generate from './generate';
 import MigrationResolver from '../services/migrationResolver';
+import generate from './generate';
+
+jest.mock('fs');
+jest.mock('path');
 
 test('should try to create the output directory if not exists, and then generate the migration file', () => {
-    let fileReferential: Array<FsEntry> = [];
+    const fileReferential: FsEntry[] = [];
     // @ts-ignore: Unreachable code error
     fs.__setFileReferential(fileReferential);
     const migrationDir = MigrationResolver.getMigrationDir();
@@ -39,7 +40,7 @@ test('should generate the migration file with a specific content', () => {
         path: 'migrations',
         content: 'Content for this directory should not change',
     };
-    let fileReferential: Array<FsEntry> = [createdDirectory];
+    const fileReferential: FsEntry[] = [createdDirectory];
     // @ts-ignore: Unreachable code error
     fs.__setFileReferential(fileReferential);
     const migrationDir = MigrationResolver.getMigrationDir();
@@ -130,7 +131,7 @@ test('should raise an exception if the file exists', () => {
         path: 'migrations/migration1.js',
         content: 'any file content',
     };
-    let fileReferential: Array<FsEntry> = [createdDirectory, existingFile];
+    const fileReferential: FsEntry[] = [createdDirectory, existingFile];
     // @ts-ignore: Unreachable code error
     fs.__setFileReferential(fileReferential);
     const migrationDir = MigrationResolver.getMigrationDir();

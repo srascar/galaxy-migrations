@@ -1,4 +1,5 @@
 import MigrationResolver from './migrationResolver';
+
 jest.mock('path');
 
 describe('getMigrationDir', () => {

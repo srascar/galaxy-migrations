@@ -1,5 +1,5 @@
-import { resolve as pathResolve } from 'path';
 import { exec, ExecException } from 'child_process';
+import { resolve as pathResolve } from 'path';
 
 interface Result {
     code: number;
@@ -24,13 +24,13 @@ const cli = (args: string[], cwd: string = '.'): Promise<Result> =>
         );
     });
 
-const snakeToCamelCase = (string: string): string => {
-    return string
-        .replace(/_(.)/g, function($1) {
+const snakeToCamelCase = (input: string): string => {
+    return input
+        .replace(/_(.)/g, $1 => {
             return $1.toUpperCase();
         })
         .replace(/_/g, '')
-        .replace(/^(.)/, function($1) {
+        .replace(/^(.)/, $1 => {
             return $1.toLowerCase();
         });
 };
@@ -54,11 +54,11 @@ const traverseKeysRecursively = <T>(
     );
 };
 
-function pad(number: number) {
-    if (number < 10) {
-        return '0' + number;
+function pad(integer: number) {
+    if (integer < 10) {
+        return '0' + integer;
     }
-    return number;
+    return integer;
 }
 
 export { cli, snakeToCamelCase, traverseKeysRecursively, pad };

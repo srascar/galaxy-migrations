@@ -5,7 +5,7 @@ const batchExecutePromises = async (
     let batch = [];
     let i = 0;
 
-    for (var wrappedPromise of promises) {
+    for (const wrappedPromise of promises) {
         batch.push(wrappedPromise());
         i++;
 

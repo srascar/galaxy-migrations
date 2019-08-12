@@ -1,7 +1,7 @@
-import { Migration, DEFAULT_MIGRATION_DIR } from './dictionary';
+import { readdirSync } from 'fs';
 import { resolve as pathResolve } from 'path';
 import { pad } from '../utils';
-import { readdirSync } from 'fs';
+import { DEFAULT_MIGRATION_DIR, Migration } from './dictionary';
 
 interface MigrationResolverInterface {
     getMigrationDir: (migrationsDir?: string) => string;
@@ -41,7 +41,8 @@ const MigrationResolver: MigrationResolverInterface = {
                 now.getDate()
             )}${pad(now.getHours())}${pad(now.getMinutes())}${pad(
                 now.getSeconds()
-            )}`
+            )}`,
+            10
         );
     },
     getMigration: (migrationPath: string): Migration => {

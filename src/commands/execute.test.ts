@@ -1,7 +1,8 @@
-jest.mock('@azure/cosmos');
 import * as cosmos from '@azure/cosmos';
-import execute from './execute';
 import { Migration, MIGRATION_WAYS } from '../services/dictionary';
+import execute from './execute';
+
+jest.mock('@azure/cosmos');
 
 test('should stop if the check count is 0', async () => {
     const container = new cosmos.Container(null, 'id', null);

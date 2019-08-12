@@ -1,5 +1,5 @@
+import { Container, CosmosClient } from '@azure/cosmos';
 import { DatabaseConfiguration, SUPPORTED_CONNECTORS } from './dictionary';
-import { CosmosClient, Container } from '@azure/cosmos';
 
 const connectAzureCosmosContainer = (
     config: DatabaseConfiguration

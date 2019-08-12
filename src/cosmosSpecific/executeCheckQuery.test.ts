@@ -1,6 +1,7 @@
-jest.mock('@azure/cosmos');
 import * as cosmos from '@azure/cosmos';
 import executeCheckQuery from './executeCheckQuery';
+
+jest.mock('@azure/cosmos');
 
 test('should return a number when the result is a single number in an array', async () => {
     const container = new cosmos.Container(null, 'id', null);

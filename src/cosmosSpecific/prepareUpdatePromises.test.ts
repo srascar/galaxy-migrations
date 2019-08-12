@@ -1,6 +1,7 @@
-jest.mock('@azure/cosmos');
 import * as cosmos from '@azure/cosmos';
 import prepareUpdatePromises from './prepareUpdatePromises';
+
+jest.mock('@azure/cosmos');
 
 test('should return an array of wrapped promises', async () => {
     const container = new cosmos.Container(null, 'id', null);
@@ -21,7 +22,7 @@ test('should return an array of wrapped promises', async () => {
         }
     );
 
-    for await (var wrapedPromise of wrapedPromises) {
+    for await (const wrapedPromise of wrapedPromises) {
         // unwrap the promise
         const promise = wrapedPromise();
         expect(promise).toBeInstanceOf(Promise);

@@ -2,10 +2,10 @@ import catchableProcess from './catchableProcess';
 
 test('should exit the process if an exception is thrown', async () => {
     // @ts-ignore: Unreachable code error
-    const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => {});
+    const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => null);
     const consoleLog = jest
         .spyOn(console, 'error')
-        .mockImplementation(() => {});
+        .mockImplementation(() => null);
     const error = new Error('error 1');
 
     const command = () => {
@@ -19,10 +19,10 @@ test('should exit the process if an exception is thrown', async () => {
 
 test('should exit the process if an exception is thrown within a promise', async () => {
     // @ts-ignore: Unreachable code error
-    const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => {});
+    const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => null);
     const consoleLog = jest
         .spyOn(console, 'error')
-        .mockImplementation(() => {});
+        .mockImplementation(() => null);
     const error = new Error('error 1');
 
     const command = (): Promise<void> => {
