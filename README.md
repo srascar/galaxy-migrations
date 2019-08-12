@@ -13,7 +13,7 @@ Galaxy migrations requires Node.js in version 8 and up
 ## Installation
 
 ```
-npm install galaxy-migration
+npm install --save-dev @srascar/galaxy-migrations
 ```
 
 ## Documentation
@@ -26,7 +26,7 @@ But you can use the `--config-file` option to specify your own.
 Here is an example of config.
 
 ```
-migrations_directory: migrations
+migrations_dir: migrations
 database:
     connector: azure_cosmos_db
     endpoint: https://localhost.cosmosdb:443/
@@ -43,7 +43,7 @@ Note: Only `azure_cosmos_db` connector is supported for now.
 #### Create a migration
 
 ```
-./galaxy-migrations generate
+npx galaxy-migrations generate
 ```
 
 This will create a new file in you migration directory.
@@ -80,19 +80,19 @@ We will only focus on the query up for this example.
 Migrate up
 
 ```
-./galaxy-migrations execute 20190712120924
+npx galaxy-migrations execute 20190712120924
 ```
 
 Migrate down (eg: rollback)
 
 ```
-./galaxy-migrations execute 20190712120924 -w down
+npx galaxy-migrations execute 20190712120924 -w down
 ```
 
 Dry run
 
 ```
-./galaxy-migrations execute 20190712120924 -w up -d
+npx galaxy-migrations execute 20190712120924 -w up -d
 ```
 
 #### Execute all migrations in the directory (based on the config)
@@ -100,17 +100,17 @@ Dry run
 Migrate all up
 
 ```
-./galaxy-migrations migrate
+npx galaxy-migrations migrate
 ```
 
 Migrate all down (eg: rollback)
 
 ```
-./galaxy-migrations migrate -w down
+npx galaxy-migrations migrate -w down
 ```
 
 Dry run
 
 ```
-./galaxy-migrations migrate -w up -d
+npx galaxy-migrations migrate -w up -d
 ```

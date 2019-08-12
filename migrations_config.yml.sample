@@ -1,4 +1,4 @@
-migrations_directory: migrations
+migrations_dir: migrations
 database:
     connector: azure_cosmos_db
     endpoint: https://localhost.cosmosdb:443/
