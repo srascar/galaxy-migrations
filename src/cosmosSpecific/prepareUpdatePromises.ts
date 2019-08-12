@@ -21,16 +21,12 @@ const prepareUpdatePromises = (
 
         if (!newItem.hasOwnProperty(documentMeta.idField)) {
             throw new Error(
-                `Cannot update item "${newItem}". The key "${
-                    documentMeta.idField
-                }" does not exists.`
+                `Cannot update item "${newItem}". The key "${documentMeta.idField}" does not exists.`
             );
         }
         if (!newItem.hasOwnProperty(documentMeta.partitionKey)) {
             throw new Error(
-                `Cannot update item "${newItem}". The partition key "${
-                    documentMeta.partitionKey
-                }" does not exists.`
+                `Cannot update item "${newItem}". The partition key "${documentMeta.partitionKey}" does not exists.`
             );
         }
 
