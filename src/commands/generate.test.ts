@@ -68,7 +68,7 @@ const migration1 = {
      *
      * Set this value to null to force the execution of the migration.
      */
-    checkQueryUp: 'SELECT VALUE count(1) FROM c WHERE NOT is_defined(c.c._migrationVersion) OR c._migrationVersion < 1',
+    checkQueryUp: 'SELECT VALUE count(1) FROM c WHERE NOT is_defined(c._migrationVersion) OR c._migrationVersion < 1',
     /**
      * The query to execute on the way up
      */
@@ -87,7 +87,7 @@ const migration1 = {
      *
      * Set this value to null to force the execution of the migration.
      */
-    checkQueryDown: 'SELECT VALUE count(1) FROM c WHERE NOT is_defined(c.c._migrationVersion) OR c._migrationVersion > 1',
+    checkQueryDown: 'SELECT VALUE count(1) FROM c WHERE NOT is_defined(c._migrationVersion) OR c._migrationVersion > 1',
     /**
      * The query to execute on the way down
      */

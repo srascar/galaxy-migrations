@@ -128,7 +128,7 @@ test('should iterate and apply the migration calback on the loaded items', async
     });
 });
 
-test('should through an exception if idField is not found', async () => {
+test('should throw an exception if idField is not found', async () => {
     const container = new cosmos.Container(null, 'id', null);
     container.items.query = jest.fn();
     container.item = jest.fn();
@@ -178,7 +178,7 @@ test('should through an exception if idField is not found', async () => {
     );
 });
 
-test('should through an exception if partition key is not found', async () => {
+test('should throw an exception if partition key is not found', async () => {
     const container = new cosmos.Container(null, 'id', null);
     container.items.query = jest.fn();
     container.item = jest.fn();
