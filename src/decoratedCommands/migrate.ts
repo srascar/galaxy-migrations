@@ -7,7 +7,7 @@ import configLoader from '../services/configurationLoader';
 import MigrationResolver from '../services/migrationResolver';
 
 const decoratedExecute = async (cmd: Command) => {
-    const config = configLoader(cmd.configFile);
+    const config = configLoader(cmd.parent.configFile);
     const container = clientConnector(config.database);
     const migrationDir = MigrationResolver.getMigrationDir(
         config.migrationsDir

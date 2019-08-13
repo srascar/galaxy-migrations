@@ -39,9 +39,8 @@ const traverseKeysRecursively = <T>(
     object: T,
     cb: (key: string) => string
 ): T => {
-    // @ts-ignore: Unreachable code error
-    return Object.fromEntries(
-        Object.entries(object).map(entry => {
+    return Object.entries(object)
+        .map(entry => {
             const newEntry = [];
             newEntry[0] = cb(entry[0]);
             newEntry[1] = entry[1];
@@ -51,7 +50,13 @@ const traverseKeysRecursively = <T>(
 
             return newEntry;
         })
-    );
+        .reduce(
+            (result: any, entry: string[]) => {
+                result[entry[0]] = entry[1];
+                return result;
+            },
+            {} as T
+        );
 };
 
 function pad(integer: number) {
