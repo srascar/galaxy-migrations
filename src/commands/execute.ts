@@ -73,7 +73,7 @@ const execute = async (
         return console.log('SUCCESS: Dry run mode');
     }
 
-    batchExecutePromises(promises);
+    await batchExecutePromises(promises);
     console.log('SUCCESS: Items succesfully updated');
 };
 

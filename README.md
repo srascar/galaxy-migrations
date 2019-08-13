@@ -97,20 +97,38 @@ npx galaxy-migrations execute 20190712120924 -w up -d
 
 #### Execute all migrations in the directory (based on the config)
 
-Migrate all up
-
 ```
 npx galaxy-migrations migrate
 ```
 
-Migrate all down (eg: rollback)
+Options are the same as execute
+
+### Known issues
+
+#### Some options are only displayed for the parent command
+
+For the list of options that you can apply on all commands, use
 
 ```
-npx galaxy-migrations migrate -w down
+npx galaxy-migrations -h
 ```
 
-Dry run
+#### Update a document when your container doesn't have partition key
+
+If your container was created before the implementation of partition key, it is now
+assigned a default partition key with the path `/_partitionKey`.
+See https://github.com/Azure/azure-cosmos-js/issues/261
+
+In order to update a document from this container, in your callback, attach a new property `_partitionKey` to your items with the value `undefined`
 
 ```
-npx galaxy-migrations migrate -w up -d
+// migrationXXXXXXXXXXXXXX.js
+
+...
+
+up: itemBody => ({ ...itemBody, _partitionKey: undefined })
+
+...
+// Don't forget to specify the DEFAULT_PARTITION_KEY_PATH in the document meta
+documentMeta: { idField: 'id', partitionKey: '_partitionKey' },
 ```

@@ -34,15 +34,17 @@ const prepareUpdatePromises = (
 
         if (verbose) {
             console.log(
-                // @ts-ignore: Unreachable code error
-                Object.fromEntries([
+                [
                     [documentMeta.idField, newItem[documentMeta.idField]],
                     [
                         documentMeta.partitionKey,
                         newItem[documentMeta.partitionKey],
                     ],
                     [MIGRATION_VERSION_FIELD, newItem[MIGRATION_VERSION_FIELD]],
-                ])
+                ].reduce((summary: any, element) => {
+                    summary[element[0]] = element[1];
+                    return summary;
+                }, {})
             );
         }
 
