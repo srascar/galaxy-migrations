@@ -13,20 +13,24 @@ function fetchAll() {
 }
 
 class Container {
-    items = {
-        query: () => ({
-            fetchAll,
-        }),
-    };
-    item = () => ({
-        replace: obj => Promise.resolve(obj),
-    });
+    constructor() {
+        this.items = {
+            query: () => ({
+                fetchAll,
+            }),
+        };
+        this.item = () => ({
+            replace: obj => Promise.resolve(obj),
+        });
+    }
 }
 
 class CosmosClient {
-    database = () => ({
-        container: () => new Container(),
-    });
+    constructor() {
+        this.database = () => ({
+            container: () => new Container(),
+        });
+    }
 }
 class FeedResponse {
     constructor(resources, headers, hasMoreResults) {
