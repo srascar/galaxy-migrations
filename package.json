@@ -36,7 +36,6 @@
     },
     "homepage": "https://github.com/srascar/galaxy-migrations#readme",
     "devDependencies": {
-        "@types/commander": "^2.12.2",
         "@types/jest": "^26.0",
         "@types/node": "^12.6.8",
         "@types/yaml": "^1.0",
@@ -48,7 +47,7 @@
     },
     "dependencies": {
         "@azure/cosmos": "^3.9.3",
-        "commander": "^2.20.0",
+        "commander": "^6.2.1",
         "yaml": "^1.10.0"
     }
 }

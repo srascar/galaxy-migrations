@@ -3,7 +3,7 @@ import batchExecutePromises from './batchExecutePromises';
 test('should resolve an array of wrapped promisses', async () => {
     let count = 0;
     const generatePromise = () =>
-        new Promise(resolve => {
+        new Promise<void>(resolve => {
             ++count;
             resolve();
         });

@@ -43,7 +43,7 @@ Note: Only `azure_cosmos_db` connector is supported for now.
 #### Create a migration
 
 ```
-npx galaxy-migrations generate
+./galaxy-migrations generate
 ```
 
 This will create a new file in you migration directory.
@@ -80,25 +80,25 @@ We will only focus on the query up for this example.
 Migrate up
 
 ```
-npx galaxy-migrations execute 20190712120924
+./galaxy-migrations execute 20190712120924
 ```
 
 Migrate down (eg: rollback)
 
 ```
-npx galaxy-migrations execute 20190712120924 -w down
+./galaxy-migrations execute 20190712120924 -w down
 ```
 
 Dry run
 
 ```
-npx galaxy-migrations execute 20190712120924 -w up -d
+./galaxy-migrations execute 20190712120924 -w up -d
 ```
 
 #### Execute all migrations in the directory (based on the config)
 
 ```
-npx galaxy-migrations migrate
+./galaxy-migrations migrate
 ```
 
 Options are the same as execute
@@ -110,7 +110,7 @@ Options are the same as execute
 For the list of options that you can apply on all commands, use
 
 ```
-npx galaxy-migrations -h
+./galaxy-migrations -h
 ```
 
 #### Update a document when your container doesn't have partition key
