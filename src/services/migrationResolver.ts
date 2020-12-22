@@ -37,7 +37,7 @@ const MigrationResolver: MigrationResolverInterface = {
     generateVersionNumber: () => {
         const now = new Date();
         return parseInt(
-            `${now.getFullYear()}${pad(now.getMonth())}${pad(
+            `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(
                 now.getDate()
             )}${pad(now.getHours())}${pad(now.getMinutes())}${pad(
                 now.getSeconds()
