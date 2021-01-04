@@ -71,7 +71,7 @@ Edit this file and change it to you needs.
 We will only focus on the query up for this example.
 
 -   **checkQueryUp**: if this count returns 0, the migration is skiped
--   **queryUp**: both checkQueryUp and queryUp supports a queryspec object (cf Azure documentation https://github.com/Azure/azure-cosmos-js/blob/216672a679ab389e5b341280eeacab1cab3691e4/samples/ItemManagement/app.js#L97-L118)
+-   **queryUp**: both checkQueryUp and queryUp supports a queryspec object (cf Azure documentation https://github.com/Azure/azure-cosmos-js/blob/master/samples/ItemManagement.ts#L58-L67)
 -   **up**: The callback to apply on each item
 -   **documentMeta**: required object with the keys for id and partition key fields
 
