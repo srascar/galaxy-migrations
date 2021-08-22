@@ -1,6 +1,5 @@
 import { readFileSync } from 'fs';
 import { resolve as pathResolve } from 'path';
-import { isObject } from 'util';
 import * as YAML from 'yaml';
 import { snakeToCamelCase, traverseKeysRecursively } from '../utils';
 import { ALLOWED_KEYS, Configuration } from './dictionary';
@@ -16,7 +15,7 @@ const configurationLoader = (
     const config = YAML.parse(configFileContent);
 
     if (
-        !isObject(config.database) ||
+        !(config.database !== null && typeof config.database === 'object') ||
         (Object.entries(config.database).length === 0 &&
             config.database.constructor === Object)
     ) {
