@@ -1,6 +1,6 @@
 {
     "name": "@srascar/galaxy-migrations",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "Lightweight migration library in Node.js for NoSQL Document databases",
     "main": "index.js",
     "bin": {
