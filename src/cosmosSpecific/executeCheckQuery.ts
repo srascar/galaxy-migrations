@@ -3,7 +3,7 @@ import { Container, SqlQuerySpec } from '@azure/cosmos';
 const executeCheckQuery = async (
     container: Container,
     checkQuery: string | SqlQuerySpec,
-    queryOptions: object
+    queryOptions: unknown
 ): Promise<number> => {
     const response = await container.items
         .query(checkQuery, queryOptions)

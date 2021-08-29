@@ -1,39 +1,15 @@
-import { Container, SqlQuerySpec } from '@azure/cosmos';
-import batchExecutePromises from '../cosmosSpecific/batchExecutePromises';
-import executeCheckQuery from '../cosmosSpecific/executeCheckQuery';
-import executeQuery from '../cosmosSpecific/executeQuery';
-import prepareUpdatePromises from '../cosmosSpecific/prepareUpdatePromises';
-import { Migration, MIGRATION_WAYS } from '../services/dictionary';
-
-const getQueries = (
-    migration: Migration,
-    way: MIGRATION_WAYS
-): {
-    query: string | SqlQuerySpec;
-    checkQuery: string | SqlQuerySpec;
-    callback: <T>(item: T) => T;
-} => {
-    return !way || way === MIGRATION_WAYS.up
-        ? {
-              query: migration.queryUp,
-              checkQuery: migration.checkQueryUp,
-              callback: migration.up,
-          }
-        : {
-              query: migration.queryDown,
-              checkQuery: migration.checkQueryDown,
-              callback: migration.down,
-          };
-};
+import batchExecutePromises from '../services/batchExecutePromises';
+import { ExecutionSteps, Migration, MIGRATION_WAYS } from '../services/dictionary';
 
 const execute = async (
-    container: Container,
-    migration: Migration,
+    steps: ExecutionSteps<unknown, unknown>,
+    connector: unknown,
+    migration: Migration<unknown>,
     way: MIGRATION_WAYS,
     dryRun = false,
     verbose = false
 ): Promise<void> => {
-    const { query, checkQuery, callback } = getQueries(migration, way);
+    const { query, checkQuery, callback } = steps.getQueries(migration, way);
     console.log(`Starting migration ${migration.versionNumber}`);
 
     if (!(typeof callback === 'function')) {
@@ -43,8 +19,8 @@ const execute = async (
     }
 
     if (checkQuery) {
-        const checkCount = await executeCheckQuery(
-            container,
+        const checkCount = await steps.executeCheckQuery(
+            connector,
             checkQuery,
             migration.queryOptions
         );
@@ -55,13 +31,13 @@ const execute = async (
         }
     }
 
-    const response = await executeQuery(
-        container,
+    const response = await steps.executeQuery(
+        connector,
         query,
         migration.queryOptions
     );
-    const promises = prepareUpdatePromises(
-        container,
+    const promises = steps.prepareUpdatePromises(
+        connector,
         response,
         callback,
         migration.versionNumber,

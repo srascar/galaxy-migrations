@@ -4,11 +4,13 @@ import execute from '../commands/execute';
 import catchableProcess from '../decorators/catchableProcess';
 import clientConnector from '../services/clientConnector';
 import configLoader from '../services/configurationLoader';
+import connectorSteps from '../services/connectorSteps';
 import MigrationResolver from '../services/migrationResolver';
 
 const decoratedExecute = async (cmd: Command) => {
     const config = configLoader(cmd.parent.configFile);
-    const container = clientConnector(config.database);
+    const connector = clientConnector(config.database);
+    const steps = connectorSteps(config.database);
     const migrationDir = MigrationResolver.getMigrationDir(
         config.migrationsDir
     );
@@ -19,7 +21,8 @@ const decoratedExecute = async (cmd: Command) => {
                 `${migrationDir}/${migrationFile}`
             );
             return execute(
-                container,
+                steps,
+                connector,
                 migration,
                 cmd.way,
                 cmd.dryRun,

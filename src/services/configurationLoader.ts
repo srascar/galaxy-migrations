@@ -1,11 +1,10 @@
 import { readFileSync } from 'fs';
 import { resolve as pathResolve } from 'path';
 import * as YAML from 'yaml';
-import { snakeToCamelCase, traverseKeysRecursively } from '../utils';
-import { ALLOWED_KEYS, Configuration } from './dictionary';
+import { Configuration, SUPPORTED_CONNECTORS } from './dictionary';
 
 const configurationLoader = (
-    path: string = 'migrations_config.yml'
+    path = 'migrations_config.yml'
 ): Configuration => {
     // Fallback to default value when path is null
     const configFileContent = readFileSync(
@@ -22,12 +21,13 @@ const configurationLoader = (
         throw new Error('Database must be configured');
     }
 
-    return traverseKeysRecursively<Configuration>(config, key => {
-        if (!ALLOWED_KEYS.includes(key)) {
-            throw new Error(`Config key "${key}" is not recognised`);
-        }
-        return snakeToCamelCase(key);
-    });
+    const supportedConnectors = [SUPPORTED_CONNECTORS.azure_cosmos_db, SUPPORTED_CONNECTORS.mongoose];
+
+    if (!supportedConnectors.includes(config.database.connector)) {
+        throw new Error(`Invalid config: unsupported connector ${config.database.connector}`);
+    }
+
+    return config;
 };
 
 export default configurationLoader;

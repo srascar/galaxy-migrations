@@ -35,6 +35,27 @@ const snakeToCamelCase = (input: string): string => {
         });
 };
 
+const traverseKeys = <T>(
+    object: T,
+    cb: (key: string) => string
+): T => {
+    return Object.entries(object)
+        .map(entry => {
+            const newEntry = [];
+            newEntry[0] = cb(entry[0]);
+            newEntry[1] = entry[1];
+
+            return newEntry;
+        })
+        .reduce(
+            (result: any, entry: string[]) => {
+                result[entry[0]] = entry[1];
+                return result;
+            },
+            {} as T
+        );
+};
+
 const traverseKeysRecursively = <T>(
     object: T,
     cb: (key: string) => string
@@ -66,4 +87,4 @@ function pad(integer: number) {
     return integer;
 }
 
-export { cli, snakeToCamelCase, traverseKeysRecursively, pad };
+export { cli, snakeToCamelCase, traverseKeys, traverseKeysRecursively, pad };

@@ -2,3 +2,4 @@ node_modules/
 build/
 migrations/
 migrations_config.yml
+mongoose_migrations_config.yml

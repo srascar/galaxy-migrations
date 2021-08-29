@@ -7,7 +7,7 @@ const prepareUpdatePromises = (
     callback: <T>(item: T, index?: number) => T,
     versionNumber: number,
     documentMeta: DocumentMeta,
-    verbose: boolean = false
+    verbose = false
 ): Array<() => Promise<any>> => {
     const results = response.resources;
     console.log(`${results.length} items to migrate`);
@@ -19,12 +19,12 @@ const prepareUpdatePromises = (
     return results.map((item, index) => {
         const newItem = callback(item, index);
 
-        if (!newItem.hasOwnProperty(documentMeta.idField)) {
+        if (newItem[documentMeta.idField] === undefined) {
             throw new Error(
                 `Cannot update item "${newItem}". The key "${documentMeta.idField}" does not exists.`
             );
         }
-        if (!newItem.hasOwnProperty(documentMeta.partitionKey)) {
+        if (newItem[documentMeta.partitionKey] === undefined) {
             throw new Error(
                 `Cannot update item "${newItem}". The partition key "${documentMeta.partitionKey}" does not exists.`
             );

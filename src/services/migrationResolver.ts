@@ -8,7 +8,7 @@ interface MigrationResolverInterface {
     readMigrationDir: (migrationsDir: string) => string[];
     getMigrationPath: (migrationsDir: string, versionNumber: number) => string;
     generateVersionNumber: () => number;
-    getMigration: (migrationsPath: string) => Migration;
+    getMigration: (migrationsPath: string) => Migration<unknown>;
 }
 
 const MigrationResolver: MigrationResolverInterface = {
@@ -45,7 +45,7 @@ const MigrationResolver: MigrationResolverInterface = {
             10
         );
     },
-    getMigration: (migrationPath: string): Migration => {
+    getMigration: (migrationPath: string): Migration<unknown> => {
         try {
             return require(migrationPath);
         } catch (err) {
